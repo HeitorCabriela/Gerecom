@@ -1,0 +1,230 @@
+package com.projectbd.dao.test;
+
+import static org.junit.Assert.*;
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import ufpb.banco1dao.RepositoryException;
+import ufpb.banco1entity.Boleto;
+import ufpb.banco1entity.Cidade;
+import ufpb.banco1entity.Condominio;
+import ufpb.banco1entity.Estado;
+import ufpb.banco1entity.Fucionarios;
+import ufpb.banco1entity.Morador;
+import ufpb.bd1.Dao.java.CidadeDao;
+import ufpb.bd1.Dao.java.CondominioDao;
+import ufpb.bd1.Dao.java.EstadoDao;
+import ufpb.bd1.Dao.java.FucionariosDao;
+import ufpb.bd1.Dao.java.MoradorDao;
+
+
+
+public class FucionariosDaoTest {
+           private Fucionarios fucionarios;
+           private FucionariosDao daoFucionarios;
+           private Condominio condominio;
+       	private CondominioDao daoCondominio;
+       	private Estado estado;
+       	private EstadoDao daoEstado;
+       	private Cidade cidade;
+       	private CidadeDao daoCidade;
+       	private Morador morador;
+       	private MoradorDao daoMorador;
+	@Before
+	public void setUp() throws Exception {
+		fucionarios= new Fucionarios();
+	    daoFucionarios = new FucionariosDao(Fucionarios.class);
+	    cidade = new Cidade();
+		daoCidade = new CidadeDao(Cidade.class);
+	    estado = new Estado();
+	    daoEstado = new EstadoDao(Estado.class);
+		morador = new Morador();
+		daoMorador = new MoradorDao(Morador.class);
+		condominio = new Condominio();
+		daoCondominio = new CondominioDao(Condominio.class);
+	}
+
+	@Ignore
+	public void testSave() throws RepositoryException {
+		estado.setUf("PB");
+		daoEstado.save(estado);
+		cidade.setNome("joao pessoa");
+		cidade.setIdEstado(estado);
+		daoCidade.save(cidade);
+		condominio.setNome("OURO BRANCO");
+		condominio.setEndereco("Rua José Carlos");
+		condominio.setQuantRes(40);
+		condominio.setIdCidade(cidade);
+		daoCondominio.save(condominio);
+		morador.setNome("Carlos");
+		morador.setCpf("05921841459");
+		morador.setNResd("B103");
+		morador.setTelefone("3235-6450");
+		morador.setCodCond(condominio);
+		daoMorador.save(morador);
+
+		fucionarios.setCargo("Zelador");
+		fucionarios.setCpf("05923454388");
+		fucionarios.setSalario(809.00);
+		fucionarios.setNome("GIlmar Junio");
+		fucionarios.setCod_cond(1);
+		fucionarios.setTelefone("8858699");
+		fucionarios.setCondominio(condominio);
+		
+		daoFucionarios.save(fucionarios);
+		
+		
+		Fucionarios f= daoFucionarios.findByName("GIlmar Junio");
+			Assert.assertEquals(f.getNome(),"GIlmar Junio");
+	}
+
+	@Ignore
+	public void testDelete() throws RepositoryException {
+		
+		estado.setUf("PB");
+		daoEstado.save(estado);
+		cidade.setNome("joao pessoa");
+		cidade.setIdEstado(estado);
+		daoCidade.save(cidade);
+		condominio.setNome("OURO BRANCO");
+		condominio.setEndereco("Rua José Carlos");
+		condominio.setQuantRes(40);
+		condominio.setIdCidade(cidade);
+		daoCondominio.save(condominio);
+		morador.setNome("Carlos");
+		morador.setCpf("05921841459");
+		morador.setNResd("B103");
+		morador.setTelefone("3235-6450");
+		morador.setCodCond(condominio);
+		daoMorador.save(morador);
+
+		fucionarios.setCargo("Zelador");
+		fucionarios.setCpf("05923454388");
+		fucionarios.setSalario(809.00);
+		fucionarios.setNome("GIlmar Junio");
+		fucionarios.setCod_cond(1);
+		fucionarios.setTelefone("8858699");
+		fucionarios.setCondominio(condominio);
+		
+		daoFucionarios.save(fucionarios);
+		
+		daoFucionarios.delete(fucionarios);
+		
+		Assert.assertTrue(daoFucionarios.findAll().size() == 0);
+	}
+
+	@Ignore
+	public void testUpdate() throws RepositoryException {
+		estado.setUf("PB");
+		daoEstado.save(estado);
+		cidade.setNome("joao pessoa");
+		cidade.setIdEstado(estado);
+		daoCidade.save(cidade);
+		condominio.setNome("OURO BRANCO");
+		condominio.setEndereco("Rua José Carlos");
+		condominio.setQuantRes(40);
+		condominio.setIdCidade(cidade);
+		daoCondominio.save(condominio);
+		morador.setNome("Carlos");
+		morador.setCpf("05921841459");
+		morador.setNResd("B103");
+		morador.setTelefone("3235-6450");
+		morador.setCodCond(condominio);
+		daoMorador.save(morador);
+
+		fucionarios.setCargo("Zelador");
+		fucionarios.setCpf("05923454388");
+		fucionarios.setSalario(809.00);
+		fucionarios.setNome("GIlmar Junio");
+		fucionarios.setCod_cond(1);
+		fucionarios.setTelefone("8858699");
+		fucionarios.setCondominio(condominio);
+		
+		daoFucionarios.save(fucionarios);
+		
+		fucionarios.setNome("joseeee");
+		daoFucionarios.update(fucionarios);
+		Assert.assertTrue(daoFucionarios.findId(1).getId().equals(1));
+	
+	}
+
+	@Ignore
+	public void testFindAll() throws RepositoryException {
+		
+		estado.setUf("PB");
+		daoEstado.save(estado);
+		cidade.setNome("joao pessoa");
+		cidade.setIdEstado(estado);
+		daoCidade.save(cidade);
+		condominio.setNome("OURO BRANCO");
+		condominio.setEndereco("Rua José Carlos");
+		condominio.setQuantRes(40);
+		condominio.setIdCidade(cidade);
+		daoCondominio.save(condominio);
+		morador.setNome("Carlos");
+		morador.setCpf("05921841459");
+		morador.setNResd("B103");
+		morador.setTelefone("3235-6450");
+		morador.setCodCond(condominio);
+		daoMorador.save(morador);
+
+		fucionarios.setCargo("Zelador");
+		fucionarios.setCpf("05923454388");
+		fucionarios.setSalario(809.00);
+		fucionarios.setNome("GIlmar Junio");
+		fucionarios.setCod_cond(1);
+		fucionarios.setTelefone("8858699");
+		fucionarios.setCondominio(condominio);
+		
+		daoFucionarios.save(fucionarios);
+		
+		
+		Assert.assertTrue(daoFucionarios.findAll().size() == 1);
+	
+		
+	}
+	
+	
+	@Test
+	public void testFindId()throws RepositoryException{
+		
+		estado.setUf("PB");
+		daoEstado.save(estado);
+		cidade.setNome("joao pessoa");
+		cidade.setIdEstado(estado);
+		daoCidade.save(cidade);
+		condominio.setNome("OURO BRANCO");
+		condominio.setEndereco("Rua José Carlos");
+		condominio.setQuantRes(40);
+		condominio.setIdCidade(cidade);
+		daoCondominio.save(condominio);
+		morador.setNome("Carlos");
+		morador.setCpf("05921841459");
+		morador.setNResd("B103");
+		morador.setTelefone("3235-6450");
+		morador.setCodCond(condominio);
+		daoMorador.save(morador);
+
+		fucionarios.setCargo("Zelador");
+		fucionarios.setCpf("05923454388");
+		fucionarios.setSalario(809.00);
+		fucionarios.setNome("GIlmar Junio");
+		fucionarios.setCod_cond(1);
+		fucionarios.setTelefone("8858699");
+		fucionarios.setCondominio(condominio);
+		
+		daoFucionarios.save(fucionarios);
+	
+		
+		
+		
+		Assert.assertTrue(daoMorador.findId(1).getId().equals(1));
+	}
+	
+	
+	
+
+}
